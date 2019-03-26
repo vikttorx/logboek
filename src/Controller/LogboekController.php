@@ -83,7 +83,7 @@ class LogboekController extends AbstractController
      */
     public function edit(Request $request, Logboek $logboek): Response
     {
-        if ($this->security->isGranted('ROLE_USER')) {
+        if ($this->security->isGranted('ROLE_USER')){
             $form = $this->createForm(LogboekType::class, $logboek);
             $form->handleRequest($request);
 
