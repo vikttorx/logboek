@@ -16,6 +16,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class LogboekController extends AbstractController
 {
+
     private $security;
 
     public function __construct(Security $security)
@@ -25,10 +26,12 @@ class LogboekController extends AbstractController
     /**
      * @Route("/", name="logboek_index", methods={"GET"})
      */
+
     public function index(LogboekRepository $logboekRepository): Response
     {
+        $user = $this->getUser()->getId();
         return $this->render('logboek/index.html.twig', [
-            'logboeks' => $logboekRepository->findAll(),
+            'logboeks' => $logboekRepository->findBy(['userId' => $user]),
 
 
         ]);
