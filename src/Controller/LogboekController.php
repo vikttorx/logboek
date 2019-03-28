@@ -29,12 +29,18 @@ class LogboekController extends AbstractController
 
     public function index(LogboekRepository $logboekRepository): Response
     {
+        if ($this->security->isGranted('ROLE_USER')) {
         $user = $this->getUser()->getId();
         return $this->render('logboek/index.html.twig', [
             'logboeks' => $logboekRepository->findBy(['userId' => $user]),
 
 
         ]);
+        }
+        else{
+            return $this->render('default/noaccess.html.twig');
+
+        }
 
     }
 
@@ -83,7 +89,8 @@ class LogboekController extends AbstractController
      */
     public function edit(Request $request, Logboek $logboek): Response
     {
-        if ($this->security->isGranted('ROLE_USER')){
+        if ($this->security->isGranted('ROLE_DRIVER') or ($this->security->isGranted('ROLE_ADMIN')) )
+        {
             $form = $this->createForm(LogboekType::class, $logboek);
             $form->handleRequest($request);
 
